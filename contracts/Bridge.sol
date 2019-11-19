@@ -207,7 +207,7 @@ contract Bridge {
   /**
   * @dev kill(): destroys the contract
   */
-  function kill() public onlyOwner {
+  function kill() public onlyOwner onlyIfBalanceIsZero {
       selfdestruct(address(0x0));
   }
 
@@ -446,6 +446,11 @@ contract Bridge {
 
   modifier onlyNotFrozen() {
       require(frozen == false, "The contract is frozen");
+      _;
+  }
+
+  modifier onlyIfBalanceIsZero() {
+      require(address(this).balance == 0, "The balance of the contract is positive");
       _;
   }
 
