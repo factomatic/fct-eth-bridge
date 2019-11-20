@@ -20,10 +20,10 @@ const deploy = async (network, secret, etherscanApiKey) => {
     const requestedAmount = 36500000000;
 
 
-	// deploy contract
-	const deployer = new etherlime.InfuraPrivateKeyDeployer(account1PrivKey, network, infuraAPIKey);
-	// deployer.setDefaultOverrides({gasPrice: 20000000000, gasLimit: 47000000});
-	
+    // deploy contract
+    const deployer = new etherlime.InfuraPrivateKeyDeployer(account1PrivKey, network, infuraAPIKey);
+    // deployer.setDefaultOverrides({gasPrice: 20000000000, gasLimit: 47000000});
+
     const contractWrapper = await deployer.deploy(Bridge, false, factomAnchorContractAddress);
     const contractAddress = contractWrapper.contractAddress;
 
@@ -39,10 +39,10 @@ const deploy = async (network, secret, etherscanApiKey) => {
     // book request
     const requestId = 0;
     const bookRequestTransaction = await deployedContractWrapper.bookRequest(requestId);
-	await deployedContractWrapper.verboseWaitForTransaction(bookRequestTransaction, 'Book request');
-	
-	// change transaction params
-	const txTimestamp = "0x016db650c90a";
+    await deployedContractWrapper.verboseWaitForTransaction(bookRequestTransaction, 'Book request');
+
+    // change transaction params
+    const txTimestamp = "0x016db650c90a";
     const addressesCount = [2, 1, 0];
     const addresses = [
         "0x77fd94eacd8191bef2b42cef6108eaeae28d1674354e169e88a9e6f0eefa29e8",
@@ -71,15 +71,15 @@ const deploy = async (network, secret, etherscanApiKey) => {
           amounts,
           publicKeys,
           signatures
-	  );
-	await deployedContractWrapper.verboseWaitForTransaction(submitParamsTransaction, 'Submit transaction params for booked request');
+      );
+    await deployedContractWrapper.verboseWaitForTransaction(submitParamsTransaction, 'Submit transaction params for booked request');
 
-	let booking = await deployedContractWrapper.bookings(requestId);
-	console.log("Expected transaction hash: " + expectedTransactionHash);
-	console.log("Transaction hash: " + booking.txHash);
-	
-	// change fulfill request params
-	const txBlockHeight = 214686;
+    let booking = await deployedContractWrapper.bookings(requestId);
+    console.log("Expected transaction hash: " + expectedTransactionHash);
+    console.log("Transaction hash: " + booking.txHash);
+
+    // change fulfill request params
+    const txBlockHeight = 214686;
     const txPathNodes = [
         "0x03eb27bd1d37eb072d62ae9a1e47f87ea81632b2e7e8f6df44c3bd4934532a7b",
         "0xb289dea92ca5aba5f2e1891a1af11be27914c48854db0fe5b4bb95c137e0f2d6",
