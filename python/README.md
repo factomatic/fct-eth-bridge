@@ -3,6 +3,6 @@ This folder contains the reference Python implementation used to create the Ethe
 is provided as a Jupyter notebook to facilitate interactive exploration.
 
 # Running the code
-* Make sure you have Jupyter notebook and pipenv installed on your machine.
+* Make sure you have pipenv installed on your machine.
 * Install the dependencies: `pipenv install`
 * Start the notebook server in the `python` directory: `jupyter notebook`
