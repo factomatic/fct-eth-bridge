@@ -24,12 +24,12 @@ ethAmount = 0.001
 # Amount of FCT requested in Factoids. For the purposes of experimentation, this
 # amount and the ethAmount deposited to the smart contract do not have to match
 # the current market rate of FCT, so you can set arbitrary values, provided that
-# you will be fullfilling your own request.
+# you will be fullfilling your own request
 #
 # **IMPORTANT**: keep in mind that the contract is live on mainnet and anyone
 # can satisfy your request. As such, always make sure you do not overpay for the
 # FCT because, if you do, someone can claim the ETH you deposited in your
-# contract an make a profit. 
+# contract an make a profit
 fctAmount = 1
 
 # The duration for which the request will be valid. This is the window during
@@ -42,8 +42,3 @@ durationMinutes = 60
 # different from the ethPrivateKey used in the fctBuyRequest. Case-insensitive
 # hex string with a leading 0x
 ethPrivatKey = "0xb8a7..."
-
-# The hash of the Factoid transaction that transferred fctAmount to fctAddress,
-# where fctAmount and fctAddress are the values from the fctBuyRequest section.
-# Case-insensitive hex string, with no leading 0x
-factoidTransactionHash = "1aef..."
