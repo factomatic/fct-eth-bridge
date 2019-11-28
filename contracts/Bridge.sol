@@ -33,8 +33,8 @@ contract Bridge {
   struct Request {
       address payable issuer;
       bytes32 fctAddress; // base58 decoded without the first 2 and last 4 bytes
-      uint256 depositedAmount; //in wei
-      uint256 requestedAmount; //in fct
+      uint256 depositedAmount; // in wei
+      uint256 requestedAmount; // in factoshis
       uint256 timestamp;
       uint256 deadline;
       RequestStatus status;
