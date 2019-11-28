@@ -4,3 +4,4 @@ build/
 python/.ipynb_checkpoints/
 __pycache__/
 config.toml
+js/claim_eth_request.js
