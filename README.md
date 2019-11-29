@@ -67,12 +67,12 @@ The smart contract ensures that:
 after it has been fulfilled)
 
 ### Gas costs
-There are four different transactions necessary in order to complete an end-to-end workflow:
+Four different transactions are necessary in order to complete an end-to-end workflow:
 * issuing an FCT buy request
 * booking a request
 * fulfilling a request
 
-Due to limitation of the EVM (and our non-optimized implementation) the last action requires two transactions.
+Due to limitations of the EVM (and our non-optimized implementation) the last action requires two transactions.
 
 The associated gas costs are as follows:
 * issuing a request: 158,215 gas ([example tx](https://etherscan.io/tx/0xcea925b37fc12124d07618fd2b40fe1b3553df2cc5cf775cfbe2cf28225010d5))
@@ -95,11 +95,12 @@ that older versions work as well. This code has been tested on UNIX-like operati
 on Windows. Use MacOS, Ubuntu or another Linux distribution.
 
 You also need access to the private keys of two Ethereum addresses with sufficient balances to make a deposit to the
-smart contract and to claim the deposited funds after fullfiling an FCT buy request ($1 worth of ETH per account should
-suffice). Finally, you need at least one Factoid address with a sufficient amount of FCT to fullfil the request.
+smart contract and to claim the deposited funds after fulfilling an FCT buy request ($1 worth of ETH per account should
+suffice). Finally, you need at least one Factoid address with a sufficient amount of FCT to fulfill the request.
 
 ### Procedure
 1. `git clone git@github.com:factomatic/fct-eth-bridge.git`
+1. `cd fct-eth-bridge`
 1. `npm install`
 1. `cd python && pipenv install && cd ..`
 1. `cp config.toml.template config.toml`
