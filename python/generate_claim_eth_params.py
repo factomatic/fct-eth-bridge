@@ -13,27 +13,29 @@ import utils
 factomd = Factomd(host="https://api.factomd.net")
 
 
-def find_factoid_tx_in_block(tx_hash, block):
+def find_factoid_tx_in_block(tx_id, block):
     for _, transactions in block.body.transactions.items():
         for tx in transactions:
-            if tx.hash.hex() == tx_hash:
+            if tx.tx_id.hex() == tx_id:
                 return tx
+    raise RuntimeError("{} not found in block".format(tx_id))
 
 
 def compute_merkle_path_and_pos(tree, leaf):
     path = utils.compute_merkle_path(tree[0].index(leaf), tree)
-    return list(zip(*map(lambda x: ("0x{}".format(x[0].hex()), x[1]), path)))
+    path, pos = list(zip(*map(lambda x: ("0x{}".format(x[0].hex()), x[1]), path)))
+    return list(path), list(pos)
 
 
-def fill_and_write_template(template_path, tx_hash):
+def fill_and_write_template(template_path, tx_id):
     with open(template_path) as f:
         template = Template(f.read())
 
     try:
-        tx = factomd.transaction(tx_hash)
+        tx = factomd.transaction(tx_id)
         fb = factomd.factoid_block_by_keymr(tx["includedintransactionblock"])
     except (InvalidParams, KeyError):
-        print("Transaction with the given hash not found!")
+        print("Transaction with the given ID not found!")
         sys.exit(1)
 
     tx_height = tx["includedindirectoryblockheight"]
@@ -53,7 +55,7 @@ def fill_and_write_template(template_path, tx_hash):
     anchors = factomd.anchors(directory_block.keymr)
     # Convert the transaction to a factom_core.block_elements.FactoidTransaction
     # object
-    tx = find_factoid_tx_in_block(tx_hash, factoid_block)
+    tx = find_factoid_tx_in_block(tx_id, factoid_block)
 
     assert len(tx.outputs) == 1, "Transaction must have a single output"
 
@@ -81,7 +83,7 @@ def fill_and_write_template(template_path, tx_hash):
     params["fblock_path_positions"] = pos
     path, pos = zip(*utils.build_merkle_path_from_anchors(anchors))
     params["dblock_path"] = list(map(lambda v: "0x{}".format(v.hex()), path))
-    params["dblock_path_positions"] = pos
+    params["dblock_path_positions"] = list(pos)
     params["header_hashes_and_merkle_roots"] = [
         "0x{}".format(hashlib.sha256(factoid_block.header.marshal()).hexdigest()),
         "0x{}".format(factoid_block.body.merkle_root.hex()),
@@ -95,7 +97,7 @@ def fill_and_write_template(template_path, tx_hash):
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
-        print("Usage: python generate_claim_eth_params.py factoid_tx_hash")
+        print("Usage: python generate_claim_eth_params.py factoid_tx_id")
         sys.exit(1)
 
     fill_and_write_template("../templates/claim_eth_request.js", sys.argv[1])

@@ -41,4 +41,4 @@ durationMinutes = 60
 # claiming the deposited ETH for a given FCT buy request. This key must be
 # different from the ethPrivateKey used in the fctBuyRequest. Case-insensitive
 # hex string with a leading 0x
-ethPrivatKey = "0xb8a7..."
+ethPrivateKey = "0xb8a7..."

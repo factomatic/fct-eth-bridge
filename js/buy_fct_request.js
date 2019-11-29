@@ -6,7 +6,7 @@ const Bridge = require('../build/Bridge.json');
 
 const config = toml.parse(fs.readFileSync('./config.toml', 'utf-8'));
 
-const rcdHash = base58.decode(config.fctBuyRequest.fctAddress).slice(2, -4).toString("hex");
+const rcdHash = "0x" + base58.decode(config.fctBuyRequest.fctAddress).slice(2, -4).toString("hex");
 // Convert FCT amount from Factoids to Factoshis
 const fctAmount = config.fctBuyRequest.fctAmount * Math.pow(10, 8);
 // Convert ETH amount from ether to wei
@@ -22,8 +22,8 @@ const contract = new ethers.Contract(contractAddress, Bridge.abi, wallet);
 
 async function issueFctBuyRequest(fctAddress, requestAmount, requestDeadline) {
     let tx = await contract.issueRequest(
-        fctAddress, requestedAmount, requestDeadline,
-        { value:  weiAmount }
+        fctAddress, requestAmount, requestDeadline,
+        { value: weiAmount, gasPrice: config.gasPriceInGwei * Math.pow(10, 9) }
     );
     let receipt = await tx.wait();
     let requestEvent = receipt.events.pop();
@@ -32,4 +32,4 @@ async function issueFctBuyRequest(fctAddress, requestAmount, requestDeadline) {
 };
 
 issueFctBuyRequest(rcdHash, fctAmount, requestDeadline)
-    .then((v) => console.log('Request ID is: ' + val));
+    .then((v) => console.log('Request ID is: ' + v));
